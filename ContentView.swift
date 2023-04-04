@@ -1,88 +1,110 @@
-//
-//  ContentView.swift
-//  NeedHelp
-//
-//  Created by Aaron K. Brey on 4/4/23.
-//
-
 import SwiftUI
-import CoreData
+
+
 
 struct ContentView: View {
-    @Environment(\.managedObjectContext) private var viewContext
 
-    @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Item.timestamp, ascending: true)],
-        animation: .default)
-    private var items: FetchedResults<Item>
+    
 
     var body: some View {
-        NavigationView {
-            List {
-                ForEach(items) { item in
-                    NavigationLink {
-                        Text("Item at \(item.timestamp!, formatter: itemFormatter)")
-                    } label: {
-                        Text(item.timestamp!, formatter: itemFormatter)
-                    }
-                }
-                .onDelete(perform: deleteItems)
+
+        Text("NEED HELP?")
+
+            .fontWeight(.bold)
+
+            .font(.system(size: 80))
+
+            .multilineTextAlignment(.center)
+
+            .padding()
+
+        ZStack{
+
+            HStack(alignment: .center, spacing: 10) {
+
+                VStack(alignment: .center, spacing: 35) {
+
+                    Group {
+
+                        Link("Zero Hour (Navy)", destination: URL(string: "https://docs.google.com/spreadsheets/d/1o_WmeE0rSlwZDiv5QK38kETvIXbe3rEHYppflkJ7X6M/edit#gid=1262522450")!)
+
+                        Link("Block 1", destination: URL(string: "https://docs.google.com/spreadsheets/d/1o_WmeE0rSlwZDiv5QK38kETvIXbe3rEHYppflkJ7X6M/edit#gid=1844347907")!)
+
+                        Link("Block 2", destination: URL(string: "https://docs.google.com/spreadsheets/d/1o_WmeE0rSlwZDiv5QK38kETvIXbe3rEHYppflkJ7X6M/edit#gid=2108726168")!)
+
+                        Link("Block 3 (A)", destination: URL(string: "https://docs.google.com/spreadsheets/d/1o_WmeE0rSlwZDiv5QK38kETvIXbe3rEHYppflkJ7X6M/edit#gid=1862372789")!)
+
+                        Link("Block 3 (B)", destination: URL(string: "https://docs.google.com/spreadsheets/d/1o_WmeE0rSlwZDiv5QK38kETvIXbe3rEHYppflkJ7X6M/edit#gid=206738397")!)
+
+                        Link("Block 3 (C)", destination: URL(string: "https://docs.google.com/spreadsheets/d/1o_WmeE0rSlwZDiv5QK38kETvIXbe3rEHYppflkJ7X6M/edit#gid=2086628350")!)
+
+                        Link("Block 4", destination: URL(string: "https://docs.google.com/spreadsheets/d/1o_WmeE0rSlwZDiv5QK38kETvIXbe3rEHYppflkJ7X6M/edit#gid=2048972")!)
+
+                    }.background(LinearGradient(gradient: Gradient(colors: [.black, .blue]), startPoint: .topLeading, endPoint: .bottomTrailing))
+
+                        .buttonStyle(.bordered)
+
+                        .clipShape(RoundedRectangle(cornerRadius: 80))
+
+                }.foregroundColor(.white)
+
+                    .font(.system(size: 30))
+
+                    .padding()
+
+                
+
+                VStack(alignment: .center, spacing: 35){
+
+                    Group{
+
+                        Link("Zero Hour (Columbia)", destination: URL(string: "https://docs.google.com/spreadsheets/d/1o_WmeE0rSlwZDiv5QK38kETvIXbe3rEHYppflkJ7X6M/edit#gid=756789418")!)
+
+                        Link("Block 5", destination: URL(string: "https://docs.google.com/spreadsheets/d/1o_WmeE0rSlwZDiv5QK38kETvIXbe3rEHYppflkJ7X6M/edit#gid=226764061")!)
+
+                        Link("Block 6", destination: URL(string: "https://docs.google.com/spreadsheets/d/1o_WmeE0rSlwZDiv5QK38kETvIXbe3rEHYppflkJ7X6M/edit#gid=908336095")!)
+
+                        Link("Block 7 (A)", destination: URL(string: "https://docs.google.com/spreadsheets/d/1o_WmeE0rSlwZDiv5QK38kETvIXbe3rEHYppflkJ7X6M/edit#gid=289270052")!)
+
+                        Link("Block 7 (B)", destination: URL(string: "https://docs.google.com/spreadsheets/d/1o_WmeE0rSlwZDiv5QK38kETvIXbe3rEHYppflkJ7X6M/edit#gid=303020394")!)
+
+                        Link("Block 7 (C)", destination: URL(string: "https://docs.google.com/spreadsheets/d/1o_WmeE0rSlwZDiv5QK38kETvIXbe3rEHYppflkJ7X6M/edit#gid=1880271601")!)
+
+                        Link("Block 8", destination: URL(string: "https://docs.google.com/spreadsheets/d/1o_WmeE0rSlwZDiv5QK38kETvIXbe3rEHYppflkJ7X6M/edit#gid=1785352819")!)
+
+                    }.background(LinearGradient(gradient: Gradient(colors: [.black, .blue]), startPoint: .topLeading, endPoint: .bottomTrailing))
+
+                        .buttonStyle(.bordered)
+
+                        .clipShape(RoundedRectangle(cornerRadius: 80))
+
+                }.foregroundColor(.white)
+
+                    .font(.system(size: 30))
+
+                    .padding()
+
+                
+
             }
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
-                }
-                ToolbarItem {
-                    Button(action: addItem) {
-                        Label("Add Item", systemImage: "plus")
-                    }
-                }
-            }
-            Text("Select an item")
-        }
+
+        }.foregroundColor(.white)
+
     }
 
-    private func addItem() {
-        withAnimation {
-            let newItem = Item(context: viewContext)
-            newItem.timestamp = Date()
+    
 
-            do {
-                try viewContext.save()
-            } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-            }
-        }
-    }
-
-    private func deleteItems(offsets: IndexSet) {
-        withAnimation {
-            offsets.map { items[$0] }.forEach(viewContext.delete)
-
-            do {
-                try viewContext.save()
-            } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-            }
-        }
-    }
 }
 
-private let itemFormatter: DateFormatter = {
-    let formatter = DateFormatter()
-    formatter.dateStyle = .short
-    formatter.timeStyle = .medium
-    return formatter
-}()
+
 
 struct ContentView_Previews: PreviewProvider {
+
     static var previews: some View {
-        ContentView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+
+        ContentView()
+
     }
+
 }
+
